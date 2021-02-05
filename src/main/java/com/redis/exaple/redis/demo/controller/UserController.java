@@ -19,15 +19,14 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@PostMapping(value = "/user/", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> postUser(@RequestBody User user) {
-		userService.setKey(user.getId(), user);
-		return new ResponseEntity<String>("Success", HttpStatus.OK);
+	@PostMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> postUser(@RequestBody User user) {
+		return new ResponseEntity<>(userService.setKey(user.getId(), user), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> getUser(@PathVariable int id) {
-		return new ResponseEntity<String>(userService.getKey(id), HttpStatus.OK);
+	public ResponseEntity<User> getUser(@PathVariable int id) {
+		return new ResponseEntity<>(userService.getKey(id), HttpStatus.OK);
 	}
 
 }

@@ -16,13 +16,11 @@ public class User implements Serializable {
 	private int age;
 
 	@JsonCreator
-	public User(@JsonProperty("id") int id,
-	             @JsonProperty("name") String name,
-	             @JsonProperty("age") int age ){
+	public User(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("age") int age) {
 
 		this.id = id;
 		this.name = name;
-		this.age = age; 
+		this.age = age;
 	}
 
 	public int getId() {

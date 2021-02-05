@@ -1,6 +1,7 @@
 package com.redis.exaple.redis.demo.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Service;
 
 import com.redis.exaple.redis.demo.model.User;
@@ -13,14 +14,17 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private RedisRepository redisRepository;
 
+	private Jackson2JsonRedisSerializer<User> serializer = new Jackson2JsonRedisSerializer<>(User.class);
+
 	@Override
-	public void setKey(int key, User user) {
-		redisRepository.setKey(String.valueOf(key), user.toString());
+	public User setKey(int key, User user) {
+		redisRepository.setKey(String.valueOf(key), new String(serializer.serialize(user)));
+		return getKey(key);
 	}
 
 	@Override
-	public String getKey(int key) {
-		return redisRepository.getKey(String.valueOf(key));
+	public User getKey(int key) {
+		return serializer.deserialize(redisRepository.getKey(String.valueOf(key)).getBytes());
 	}
 
 }
